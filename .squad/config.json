@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "agentModelOverrides": {
+    "frontend": "gpt-5.3-codex",
+    "backend": "claude-opus-4.6",
+    "docs": "MAI-Code-1-Flash",
+    "tests": "MAI-Code-1-Flash",
+    "devops": "gpt-5.3-codex",
+    "reviewer": "gpt-5.3-codex",
+    "architect": "claude-opus-4.6",
+    "security": "claude-opus-4.6"
+  }
+}

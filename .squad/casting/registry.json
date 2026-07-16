@@ -1,0 +1,12 @@
+{
+  "agents": {
+    "frontend": { "role": "Frontend Engineer" },
+    "backend": { "role": "Backend Engineer" },
+    "docs": { "role": "Docs Writer" },
+    "tests": { "role": "Test Engineer" },
+    "devops": { "role": "DevOps Engineer" },
+    "reviewer": { "role": "Reviewer" },
+    "architect": { "role": "Architect" },
+    "security": { "role": "Security Reviewer" }
+  }
+}

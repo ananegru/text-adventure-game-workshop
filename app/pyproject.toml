@@ -1,0 +1,15 @@
+[project]
+name = "escape-the-labyrinth"
+version = "0.1.0"
+description = "Escape the Labyrinth — text adventure implemented by the Squad from specs/speckit/."
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
