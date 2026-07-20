@@ -5,8 +5,6 @@ instantiates, the implementation seam exists) without asserting any game
 behavior. Keep these green; add real behavior tests in ``test_acceptance.py``.
 """
 
-import pytest
-
 from game.engine import GameEngine
 
 
@@ -15,9 +13,7 @@ def test_engine_instantiates():
     assert engine.won is False
 
 
-def test_execute_is_the_implementation_seam():
-    # Starting state: command handling is not implemented yet. The Squad
-    # replaces this in Lab 02 (specs/speckit/tasks.md T004). Until then the
-    # engine documents its own seam by raising NotImplementedError.
-    with pytest.raises(NotImplementedError):
-        GameEngine().execute("look")
+def test_execute_returns_text_response():
+    # After Lab 02 the seam is implemented: execute returns a text response.
+    out = GameEngine().execute("look")
+    assert isinstance(out, str) and out.strip()

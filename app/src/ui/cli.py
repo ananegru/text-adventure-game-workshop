@@ -24,11 +24,10 @@ def main() -> None:
             break
         if raw.strip().lower() in {"quit", "exit"}:
             break
-        try:
-            print(engine.execute(raw))
-        except NotImplementedError as exc:
-            # Starter behavior: the engine is a stub until Lab 02.
-            print(exc)
+        print(engine.execute(raw))
+        if engine.won:
+            print("Thanks for playing!")
+            break
 
 
 if __name__ == "__main__":

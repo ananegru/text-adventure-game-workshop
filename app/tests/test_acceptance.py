@@ -1,64 +1,75 @@
-"""Acceptance scenarios from ``specs/speckit/spec.md``.
+"""Acceptance scenarios from specs/speckit/spec.md.
 
-TEMPLATE — every test here is skipped until Lab 02. The Squad's `tests` role
-turns each skip into a real *failing-first* test (tasks.md T009–T011), then
-`backend` and `frontend` implement until they pass. One test maps to one
-Given/When/Then scenario in the spec so coverage is traceable.
-
-Remove the module-level skip (and each ``...`` body) as you implement.
+Implemented for a full playthrough: each test maps to one Given/When/Then
+scenario so coverage stays traceable to the spec.
 """
 
-import pytest
+from game.engine import GameEngine
 
-from game.engine import GameEngine  # noqa: F401  (used once implemented)
 
-pytestmark = pytest.mark.skip(
-    reason="Implement in Lab 02 — see specs/speckit/spec.md acceptance scenarios"
-)
+def _at_armory() -> GameEngine:
+    engine = GameEngine()
+    engine.execute("go east")  # Cell -> Armory
+    return engine
+
+
+def _in_hall_with_key() -> GameEngine:
+    engine = GameEngine()
+    engine.execute("go east")        # Cell -> Armory
+    engine.execute("take rusty key")
+    engine.execute("go east")        # Armory -> Hall
+    return engine
 
 
 def test_look_returns_room_description_and_exits():
-    # Scenario 1: Given start in Cell, when `look`, then description + exits.
-    ...
+    out = GameEngine().execute("look")
+    assert "Cell" in out
+    assert "east" in out.lower()
 
 
 def test_go_blocked_direction_preserves_room():
-    # Scenario 2: Given no north exit from Cell, when `go north`, then denied
-    # and player remains in Cell.
-    ...
+    engine = GameEngine()
+    out = engine.execute("go north")
+    assert "can't" in out.lower()
+    assert "Cell" in engine.execute("look")
 
 
 def test_take_item_adds_to_inventory():
-    # Scenario 3: Given Rusty Key in Armory, when `take rusty key` in Armory,
-    # then inventory includes Rusty Key.
-    ...
+    engine = _at_armory()
+    engine.execute("take rusty key")
+    assert "rusty key" in engine.execute("inventory").lower()
 
 
 def test_use_key_unlocks_gate():
-    # Scenario 4: Given Gate is locked, when `use rusty key gate`, then Gate
-    # unlocks.
-    ...
+    engine = _in_hall_with_key()
+    out = engine.execute("use rusty key gate")
+    assert "unlock" in out.lower()
 
 
 def test_move_through_unlocked_gate():
-    # Scenario 5: Given Gate unlocked and player in Hall, when `go east`, then
-    # player moves to Exit Tunnel.
-    ...
+    engine = _in_hall_with_key()
+    engine.execute("use rusty key gate")
+    out = engine.execute("go east")
+    assert "Exit Tunnel" in out
 
 
 def test_reaching_exit_tunnel_wins():
-    # Scenario 6: Given player in Exit Tunnel, when `go east`, then win
-    # condition reached.
-    ...
+    engine = _in_hall_with_key()
+    engine.execute("use rusty key gate")
+    engine.execute("go east")        # Hall -> Exit Tunnel
+    out = engine.execute("go east")  # Exit Tunnel -> win
+    assert engine.won is True
+    assert "win" in out.lower()
 
 
 def test_unknown_command_returns_guidance():
-    # Scenario 7: Given invalid command text, when `dance`, then unknown
-    # command guidance is returned and state is preserved.
-    ...
+    engine = GameEngine()
+    out = engine.execute("dance")
+    assert "unknown" in out.lower()
+    assert "Cell" in engine.execute("look")
 
 
 def test_mixed_case_input_is_processed():
-    # Scenario 8: Given mixed-case input, when `GO EAST`, then command is
-    # processed as valid (parsing is case-insensitive).
-    ...
+    engine = GameEngine()
+    out = engine.execute("GO EAST")
+    assert "Armory" in out
