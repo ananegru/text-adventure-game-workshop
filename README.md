@@ -232,9 +232,9 @@ cd squadsdd-workshop
 # 3) Run Plan station (author a spec with Spec Kit)
 cat labs/01-spec/README.md
 
-# 4) Run Implement station (launch the Squad — interactive shell, 'quit' to exit)
+# 4) Run Implement station (launch the Squad coordinator; 'quit' or /exit to leave)
 cat labs/02-squad/README.md
-squad
+copilot --agent squad
 ```
 
 **Windows (PowerShell 7+):**
@@ -251,13 +251,14 @@ cd squadsdd-workshop
 # 3) Run Plan station (author a spec with Spec Kit)
 Get-Content labs/01-spec/README.md
 
-# 4) Run Implement station (launch the Squad — interactive shell, 'quit' to exit)
+# 4) Run Implement station (launch the Squad coordinator; 'quit' or /exit to leave)
 Get-Content labs/02-squad/README.md
-squad
+copilot --agent squad
 ```
 
-> New to the tools? `squad` opens an interactive session you talk to in plain
-> language; in VS Code you can instead pick the **Squad** agent in Copilot Chat.
+> New to the tools? `copilot --agent squad` opens an interactive session you talk to
+> in plain language; in VS Code you can instead pick the **Squad** agent in Copilot
+> Chat. The bare `squad` shell still works but is deprecated upstream.
 
 ---
 

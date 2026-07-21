@@ -20,7 +20,7 @@ session and watching an install bar.
 | Requirement | Notes |
 |---|---|
 | **GitHub account with Copilot** | Required for every station. Squad runs on GitHub Copilot. |
-| **Copilot in the CLI or VS Code** | You drive the Squad from a terminal (`squad`) or from Copilot Chat in VS Code. |
+| **Copilot in the CLI or VS Code** | You drive the Squad from a terminal (`copilot --agent squad`) or from Copilot Chat in VS Code. |
 
 ---
 
@@ -71,7 +71,8 @@ copilot             # launch once; run /login if prompted, then /exit
 ```
 
 Using VS Code instead of the terminal? Just sign in to Copilot there — the
-`copilot` step above is only needed for the terminal `squad` workflow.
+`copilot` step above is only needed for the terminal (`copilot --agent squad`)
+workflow.
 
 ---
 
@@ -126,8 +127,8 @@ You are ready when you can:
 
 1. Open `specs/speckit/spec.md`.
 2. Run `squad doctor` successfully (9 checks pass).
-3. Start a Squad session with `squad` (an interactive shell — type `quit` to
-   exit) **or** select the **Squad** agent in Copilot Chat in VS Code.
+3. Start a Squad session with `copilot --agent squad` (type `quit` or `/exit` to
+   leave) **or** select the **Squad** agent in Copilot Chat in VS Code.
 
 ---
 

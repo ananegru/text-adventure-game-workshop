@@ -27,11 +27,16 @@ final changes; Squad handles the coordination, repetition, and parallel executio
 Squad is **conversational**. You launch an interactive session and talk to a
 **coordinator** that reads `.squad/` + `.copilot/skills/` and routes work to the
 right role. Shell blocks (`$`/`cd`) are typed in your terminal; chat blocks
-(`> ...`) are typed **inside the `squad` session**.
+(`> ...`) are typed **inside the Squad session**.
 
 ```bash
-squad          # interactive shell; 'quit' to exit  (or pick the Squad agent in VS Code Copilot Chat)
+copilot --agent squad   # launches the Squad coordinator; type 'quit' or /exit to leave
 ```
+
+> **Which launch command?** `copilot --agent squad` is the current entry point and
+> loads this repo's `.github/agents/squad.agent.md` coordinator. The bare `squad`
+> interactive shell still works on v0.9.6 but is **deprecated upstream**; in VS Code
+> you can instead pick the **Squad** agent in Copilot Chat.
 
 **The team is just files you can read.** Nothing is hidden — open `.squad/` to see
 exactly who does what:
@@ -68,7 +73,7 @@ first-hand in the Stretch memory demo.)
 
 ## Talking to the team
 
-Inside the `squad` session you drive everything in plain language. There are three
+Inside the Squad session you drive everything in plain language. There are three
 ways to direct work — this is why the prompts in this lab read the way they do:
 
 - **Address one role** — start with its name: `backend, add the room graph` or
@@ -102,33 +107,82 @@ Slash commands help you stay oriented (type `/help` to see them all):
 squad doctor   # expect: Summary: 9 passed, 0 failed  (2 info lines are harmless)
 ```
 
-Launch `squad` and smoke-test the coordinator:
+Launch the Squad session (`copilot --agent squad`) and smoke-test the coordinator:
 
 ```text
 > Who is on the team, and who owns app/src/game vs app/tests?
-> List the available skills.
 ```
 
-You should see the eight roles and the `spec-to-tasks` skill. Leave it open.
+You should see the eight roles and the ownership split — `app/src/game` →
+**backend**, `app/tests` → **tests**. (You'll use the `spec-to-tasks` skill in
+`.copilot/skills/` during the build — see **Step 2** below.) Leave the session open.
 
 ## Core: build one vertical slice
 
 Implement just the **movement slice** — acceptance scenarios 1, 2, 7, 8 from the
 spec (`look`, blocked `go`, unknown command, case-insensitive parsing). This
 touches backend + frontend + tests without needing items, locks, or the win
-condition. Drive it conversationally:
+condition.
+
+Work through the steps below **in order**. **Terminal** blocks (`$`, `cat`, `cd`)
+are typed in your shell; **chat** blocks (`> ...`) are typed inside the Squad
+session you left open from Setup.
+
+### Step 1 — Read the spec (your contract)
+
+The spec's eight numbered acceptance scenarios are the source of truth — the
+movement slice is scenarios **1, 2, 7, 8**. Open it before you build so you know
+exactly what each scenario requires:
+
+```bash
+cat specs/speckit/spec.md            # macOS / Linux
+```
+
+```powershell
+Get-Content specs/speckit/spec.md    # Windows (PowerShell)
+```
+
+### Step 2 — Turn the spec into a task checklist (recommended)
+
+Ask the coordinator to run the **`spec-to-tasks`** skill. It reads the spec and
+writes an ordered, tests-first checklist to `docs/tasks/spec-checklist.md` — one
+owner per task — which is the bridge from the Plan station (Lab 01) to here. In
+the Squad session:
+
+```text
+> Use the spec-to-tasks skill to turn specs/speckit/spec.md into an implementation checklist.
+```
+
+Skim the generated checklist to see what to build and in what order. (You *can*
+build straight from the spec without it — the acceptance scenarios are still the
+contract — but the checklist makes the plan explicit.)
+
+### Step 3 — Write the failing tests first
 
 ```text
 > tests, in app/tests/test_acceptance.py un-skip and implement scenarios 1, 2, 7, and 8 as failing tests first.
+```
+
+### Step 4 — Make the tests pass (team fan-out)
+
+```text
 > Team, make those tests pass: backend adds a small room graph + parser in app/src/game; frontend wires the play loop in app/src/ui. Keep scope to those four scenarios.
+```
+
+### Step 5 — Run the review gate
+
+```text
 > reviewer, confirm each of the four scenarios passes with evidence.
 ```
 
-Validate in your terminal:
+### Step 6 — Validate in your terminal
 
 ```bash
 cd app && uv run pytest -k "look or blocked or unknown or mixed_case"
 ```
+
+Expect four passing tests. This runs from `app/`, so `cd ..` back to the repo
+root before any `cat .squad/...` command later.
 
 Along the way you've exercised the core Squad capabilities:
 
@@ -185,7 +239,8 @@ most likely to use around this workshop:
 
 | Command | What it does |
 |---------|-------------|
-| `squad` (no args) | Launch the interactive shell — the session you drive this lab from |
+| `copilot --agent squad` | Launch the Squad coordinator — the session you drive this lab from (current entry point) |
+| `squad` (no args) | Legacy interactive shell — still works on v0.9.6, **deprecated upstream** in favor of `copilot --agent squad` |
 | `squad init` | Scaffold `.squad/` in the current project (idempotent); `--preset <name>` applies a curated team, `--sdk` uses the TypeScript builder |
 | `squad upgrade` | Update Squad-owned files to the latest version; never touches your `.squad/` team state |
 | `squad status` | Show which squad is active and why |
@@ -199,11 +254,12 @@ most likely to use around this workshop:
 | `squad link <team-repo-path>` | Connect the project to a remote team root |
 | `squad export` / `squad import <file>` | Snapshot a squad to a bundle / restore it |
 
-### Interactive shell — full reference
+### Legacy `squad` interactive shell — full reference
 
-You already used this in [Talking to the team](#talking-to-the-team) above. In full,
-the shell accepts `@AgentName` addressing (case-insensitive), a leading `Name,`, a
-`Team,` fan-out, or plain natural language routed by the coordinator — plus the slash
+The bare `squad` interactive shell (still works on v0.9.6, **deprecated upstream** in
+favor of `copilot --agent squad`) accepts `@AgentName` addressing (case-insensitive),
+a leading `Name,`, a `Team,` fan-out, or plain natural language routed by the
+coordinator — plus the slash
 commands `/status`, `/agents`, `/history`, `/sessions`, `/resume <id>`, `/nap`,
 `/help`, and `/quit` (or `/exit`). Beyond routing, the shell gives you real-time
 visibility (agents working, decisions recorded, blockers surfacing), parallel
