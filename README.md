@@ -146,7 +146,8 @@ squadsdd-workshop/
 │   └── tests/                         # tests-owned: smoke + acceptance scenarios
 │
 ├── scripts/
-│   └── preflight.sh                   # One-shot environment readiness check
+│   ├── preflight.sh                   # One-shot environment readiness check (macOS/Linux)
+│   └── preflight.ps1                  # Same checks for Windows (PowerShell)
 │
 ├── .copilot/
 │   └── skills/
@@ -213,6 +214,12 @@ squadsdd-workshop/
 
 ## Quick Start
 
+> **Shell note:** command blocks are labeled `bash`, but they run the same in
+> **PowerShell 7+** — only where they differ (like the pre-flight script) is a
+> separate Windows block shown.
+
+**macOS / Linux (bash):**
+
 ```bash
 # 1) Install the tools (see prerequisites.md for details)
 npm install -g @bradygaster/squad-cli @github/copilot
@@ -230,6 +237,25 @@ cat labs/02-squad/README.md
 squad
 ```
 
+**Windows (PowerShell 7+):**
+
+```powershell
+# 1) Install the tools (see prerequisites.md for details)
+npm install -g @bradygaster/squad-cli @github/copilot
+gh auth login
+
+# 2) Move to the workshop folder and validate the whole environment
+cd squadsdd-workshop
+./scripts/preflight.ps1         # checks tools, auth, app/ tests, and squad doctor
+
+# 3) Run Plan station (author a spec with Spec Kit)
+Get-Content labs/01-spec/README.md
+
+# 4) Run Implement station (launch the Squad — interactive shell, 'quit' to exit)
+Get-Content labs/02-squad/README.md
+squad
+```
+
 > New to the tools? `squad` opens an interactive session you talk to in plain
 > language; in VS Code you can instead pick the **Squad** agent in Copilot Chat.
 
@@ -238,7 +264,7 @@ squad
 ## Before You Begin Checklist
 
 - [ ] You can explain the difference between requirement, assumption, and acceptance criterion (see [the definitions above](#1-spec-driven-development-in-plain-language)).
-- [ ] You have read [prerequisites.md](prerequisites.md) and `./scripts/preflight.sh` passes.
+- [ ] You have read [prerequisites.md](prerequisites.md) and the pre-flight check passes (`./scripts/preflight.sh`, or `./scripts/preflight.ps1` on Windows).
 - [ ] `squad doctor` passes in this repository.
 - [ ] You understand that `specs/speckit/` holds **reference solutions**; in Lab 01 you author your own.
 - [ ] You will treat the designated `spec.md` as the implementation contract.

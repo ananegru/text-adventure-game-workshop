@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 #
-# SquadSDD Workshop — pre-flight readiness check.
+# SquadSDD Workshop — pre-flight readiness check (macOS / Linux, bash).
+# Windows users: run the identical PowerShell version, scripts/preflight.ps1.
 # Run this the day before (or at the start of) the workshop so tool installs,
 # GitHub auth, and Squad setup are ready before you need them.
 #
-# Usage:  ./scripts/preflight.sh   (from the workshop root)
+# Usage:  ./scripts/preflight.sh    (from the workshop root)
+#         Windows:  ./scripts/preflight.ps1
 #
 set -euo pipefail
 

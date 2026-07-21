@@ -84,8 +84,19 @@ Spec Kit workflow is as follows: `constitution` (guardrails) →
 `spec` (what & why) → `plan` (how) → `tasks` (checklist). Initialize it in a
 **scratch folder** so it doesn't collide with the reference:
 
+**macOS / Linux (bash):**
+
 ```bash
 mkdir -p specs/mine && cd specs/mine
+uvx --from git+https://github.com/github/spec-kit.git specify init . --integration copilot
+cd ../..
+```
+
+**Windows (PowerShell 7+):**
+
+```powershell
+mkdir specs/mine -Force | Out-Null
+cd specs/mine
 uvx --from git+https://github.com/github/spec-kit.git specify init . --integration copilot
 cd ../..
 ```

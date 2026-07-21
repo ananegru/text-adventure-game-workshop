@@ -9,6 +9,10 @@ session and watching an install bar.
 > (Plan ~20, Implement ~30, Score ~10). A first-time install of every tool adds
 > ~30–45 min — do it the day before.
 
+> **Shell note:** command blocks below are labeled `bash`, but they run the same
+> in **PowerShell 7+** — only where they differ (like the pre-flight script) is a
+> separate Windows block shown.
+
 ---
 
 ## 1. Accounts & Access
@@ -22,7 +26,8 @@ session and watching an install bar.
 
 ## 2. Tools to Install
 
-`scripts/preflight.sh` checks for all of these. Install anything it flags.
+`scripts/preflight.sh` (macOS/Linux) or `scripts/preflight.ps1` (Windows
+PowerShell) checks for all of these. Install anything it flags.
 
 | Tool | Why | Install |
 |---|---|---|
@@ -72,10 +77,19 @@ Using VS Code instead of the terminal? Just sign in to Copilot there — the
 
 ## 4. Run the Pre-flight Check
 
-From the workshop root:
+From the workshop root, run the script for your platform — both run the
+identical set of checks:
+
+**macOS / Linux (bash):**
 
 ```bash
 ./scripts/preflight.sh
+```
+
+**Windows (PowerShell 7+):**
+
+```powershell
+./scripts/preflight.ps1
 ```
 
 This one script validates the whole environment so there are no surprises. It

@@ -7,7 +7,8 @@ then implement with a multi-agent Squad team against explicit acceptance criteri
 
 ## Preflight
 
-- Have each participant run `./scripts/preflight.sh` from the workshop root — it
+- Have each participant run `./scripts/preflight.sh` (macOS/Linux) or
+  `./scripts/preflight.ps1` (Windows PowerShell) from the workshop root — it
   checks tools, GitHub auth, the `app/` tests, and `squad doctor` in one pass.
 - Confirm each participant can run Spec Kit (`uvx ... specify`) and Squad commands in this repository.
 - Confirm teams can open `specs/speckit/` and `.squad/` locally.
